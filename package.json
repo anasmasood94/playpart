@@ -1,5 +1,5 @@
 {
-  "name": "socialeyez",
+  "name": "playpart",
   "private": true,
   "dependencies": {
     "@rails/actioncable": "^6.0.0",
