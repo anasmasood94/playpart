@@ -11,6 +11,11 @@ Rails.application.routes.draw do
           post :log_out
         end
       end
+      resources :videos, only: [:create, :destroy] do
+        collection do
+          get :get_video_list
+        end
+      end
     end
   end
 end

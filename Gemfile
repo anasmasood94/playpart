@@ -10,6 +10,8 @@ gem 'sass-rails', '>= 6'
 gem 'webpacker', '~> 5.0'
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.7'
+gem "aws-sdk-s3"
+gem 'aws-sdk-rails', '~> 3'
 
 gem 'devise'
 gem 'figaro'
