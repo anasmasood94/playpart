@@ -7,7 +7,6 @@ module VideoSerializer
         object.video.service_url
       end
     end 
-
   end
 end
   

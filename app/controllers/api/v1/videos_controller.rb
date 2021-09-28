@@ -1,10 +1,9 @@
 class Api::V1::VideosController < Api::V1::ApiController
     
-    
     def create
         video = current_user.videos.new(create_params)
         if video.save
-            render json: { id: video.id }.to_json, status: 200
+            video_duration video   
         else
             render json: video.errors, status: 403
         end
@@ -34,5 +33,14 @@ class Api::V1::VideosController < Api::V1::ApiController
     def create_params
         params.permit(:video, :name)
     end
-  
+
+    def video_duration video      
+        duration = ActiveStorage::Analyzer::VideoAnalyzer.new(video.video.blob).metadata[:duration]
+        if duration > 15
+            video.destroy
+            render json: { success: false, message: "Can't upload video of duration greater than 15 sec" }, status: 422
+        else
+            render json: { success: true, id: video.id }.to_json, status: 200
+        end
+    end
 end
