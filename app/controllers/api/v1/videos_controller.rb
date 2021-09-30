@@ -21,7 +21,7 @@ class Api::V1::VideosController < Api::V1::ApiController
 
     def get_video_list
 
-        video = current_user.videos
+        video = Video.paginate(page: params[:page] || 1, per_page: params[:per_page] || 20)
         if video.present?
             render json: video.order(updated_at: :desc), each_serializer: ::VideoSerializer::Base, adapter: :json
         else
