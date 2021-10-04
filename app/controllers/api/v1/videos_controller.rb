@@ -20,10 +20,11 @@ class Api::V1::VideosController < Api::V1::ApiController
   end
 
   def get_video_list
-    videos = Video.paginate(page: params[:page] || 1, per_page: params[:per_page] || 20)
+    videos = Video.with_list_order
+    .paginate(page: params[:page] || 1, per_page: params[:per_page] || 20)
 
     if videos.present?
-      render json: videos.order(updated_at: :desc), each_serializer: ::VideoSerializer::Base, adapter: :json
+      render json: videos, each_serializer: ::VideoSerializer::Base, adapter: :json, user_id: current_user.id
     else
       render json: { success: false, message: "Can't find video" }, status: 422
     end

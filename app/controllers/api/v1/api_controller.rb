@@ -11,16 +11,6 @@ class Api::V1::ApiController < ActionController::API
     render json: { success: true, msg: msg }, status: 200
   end
 
-  def render_error obj
-    if obj.present?
-      message = obj&.errors&.full_messages&.first
-    else
-      message = "Unable to find the records"
-    end
-
-    render json: { success: false, message: message }, status: 422
-  end
-
   def authenticate_token
     render json: { error: "Invalid Token" }, status: 401 if authorization_token.nil? or current_user.nil?
   end

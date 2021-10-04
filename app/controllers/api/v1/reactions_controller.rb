@@ -6,7 +6,7 @@ class Api::V1::ReactionsController < Api::V1::ApiController
     if reaction.save
       respond_success 'Reaction created Successfully.'
     else
-      render_error reaction
+      render_error reaction.errors.full_messages.first
     end
   end
 
@@ -14,7 +14,7 @@ class Api::V1::ReactionsController < Api::V1::ApiController
     if @reaction && @reaction.update(reaction_params)
       respond_success 'Reaction updated Successfully.'
     else
-      render_error @reaction
+      render_error @reaction.errors.full_messages.first
     end
   end
 
@@ -22,7 +22,7 @@ class Api::V1::ReactionsController < Api::V1::ApiController
     if @reaction && @reaction.destroy
       respond_success 'Reaction deleted Successfully.'
     else
-      render_error @reaction
+      render_error @reaction.errors.full_messages.first
     end
   end
 
