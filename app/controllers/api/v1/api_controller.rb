@@ -7,24 +7,38 @@ class Api::V1::ApiController < ActionController::API
 
   protected
 
-    def authenticate_token
-      render json: { error: "Invalid Token" }, status: 401 if authorization_token.nil? or current_user.nil?
+  def respond_success msg="Action was successful"
+    render json: { success: true, msg: msg }, status: 200
+  end
+
+  def render_error obj
+    if obj.present?
+      message = obj&.errors&.full_messages&.first
+    else
+      message = "Unable to find the records"
     end
 
-    def current_user temp=false
-      @current_user ||= User.find_by(api_token: authorization_token)
-    end
+    render json: { success: false, message: message }, status: 422
+  end
 
-    def authorization_token
-      request&.headers["Authorization"]&.split("Bearer ")&.last
-    end
+  def authenticate_token
+    render json: { error: "Invalid Token" }, status: 401 if authorization_token.nil? or current_user.nil?
+  end
 
-    def render_error message
-      render json: { sucess: false, message: message }, status: 403
-    end
+  def current_user temp=false
+    @current_user ||= User.find_by(api_token: authorization_token)
+  end
+
+  def authorization_token
+    request&.headers["Authorization"]&.split("Bearer ")&.last
+  end
+
+  def render_error message
+    render json: { sucess: false, message: message }, status: 403
+  end
 
   private
-    def render_unprocessable_entity(e)
-      render json: { sucess: false, message: e.record.errors.full_messages.first }, status: 422
-    end
+  def render_unprocessable_entity(e)
+    render json: { sucess: false, message: e.record.errors.full_messages.first }, status: 422
+  end
 end
