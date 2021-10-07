@@ -1,9 +1,12 @@
 class Api::V1::VideosController < Api::V1::ApiController
+  require 'streamio-ffmpeg'
+
+  before_action :validate_video_duration, only: :create
 
   def create
     video = current_user.videos.new(create_params)
     if video.save
-      video_duration video
+      render json: { success: true, id: video.id }.to_json, status: 200
     else
       render json: video.errors, status: 403
     end
@@ -32,16 +35,14 @@ class Api::V1::VideosController < Api::V1::ApiController
 
   private
   def create_params
-    params.permit(:video, :name, :description)
+    params.permit(:name, :description).merge(video_url: VideoUploadService.upload(params[:video]))
   end
 
-  def video_duration video
-    duration = ActiveStorage::Analyzer::VideoAnalyzer.new(video.video.blob).metadata[:duration]
-    if duration > 15
-      video.destroy
+  def validate_video_duration
+    movie = FFMPEG::Movie.new(params[:video].path)
+
+    if movie.duration > 15
       render json: { success: false, message: "Can't upload video of duration greater than 15 sec" }, status: 422
-    else
-      render json: { success: true, id: video.id }.to_json, status: 200
     end
   end
 end

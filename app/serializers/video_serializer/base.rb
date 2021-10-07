@@ -7,9 +7,7 @@ module VideoSerializer
     end
 
     def result_video_url
-      if object.video.attached?
-        object.video.service_url
-      end
+      object.video_url
     end
   end
 end
