@@ -27,6 +27,16 @@ class Api::V1::ApiController < ActionController::API
     render json: { sucess: false, message: message }, status: 403
   end
 
+  def user_first_name
+    return "" unless params[:full_name]
+    params[:full_name].split(' ')&.first || ""
+  end
+
+  def user_last_name
+    return "" unless params[:full_name]
+    params[:full_name].split(' ')[1..-1].join(' ') || ""
+  end
+
   private
   def render_unprocessable_entity(e)
     render json: { sucess: false, message: e.record.errors.full_messages.first }, status: 422

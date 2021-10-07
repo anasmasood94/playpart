@@ -12,6 +12,12 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :users, only: [] do
+        collection do
+          put :update
+        end
+      end
+
       resources :reactions, only: [:create, :update, :destroy]
       resources :videos, only: [:create, :destroy] do
         collection do

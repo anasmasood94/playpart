@@ -35,14 +35,4 @@ class Api::V1::AuthController < Api::V1::ApiController
     params.permit(:email, :password, :password_confirmation)
     .merge({ first_name: user_first_name, last_name: user_last_name })
   end
-
-  def user_first_name
-    return "" unless params[:full_name]
-    params[:full_name].split(' ')&.first || ""
-  end
-
-  def user_last_name
-    return "" unless params[:full_name]
-    params[:full_name].split(' ')[1..-1].join(' ') || ""
-  end
 end
