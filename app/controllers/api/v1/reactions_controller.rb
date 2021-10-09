@@ -4,7 +4,7 @@ class Api::V1::ReactionsController < Api::V1::ApiController
   def create
     reaction = current_user.reactions.new(reaction_params)
     if reaction.save
-      respond_success 'Reaction created Successfully.'
+      render json: { success: true, id: reaction.id, message: 'Reaction created Successfully.' }.to_json, status: 200
     else
       render_error reaction.errors.full_messages.first
     end
