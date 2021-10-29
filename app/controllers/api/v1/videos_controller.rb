@@ -1,5 +1,5 @@
+require 'streamio-ffmpeg'
 class Api::V1::VideosController < Api::V1::ApiController
-  require 'streamio-ffmpeg'
 
   before_action :validate_video_duration, only: :create
 
