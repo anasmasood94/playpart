@@ -32,7 +32,7 @@ class Api::V1::AuthController < Api::V1::ApiController
   end
 
   def sign_up_params
-    params.permit(:email, :password, :password_confirmation)
+    params.permit(:email, :password, :password_confirmation, :username)
     .merge({ first_name: user_first_name, last_name: user_last_name })
   end
 end
