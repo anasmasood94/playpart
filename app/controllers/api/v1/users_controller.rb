@@ -9,6 +9,6 @@ class Api::V1::UsersController < Api::V1::ApiController
 
   private
   def update_params
-    params.permit(:password, :password_confirmation).merge({ first_name: user_first_name, last_name: user_last_name })
+    params.permit(:password, :password_confirmation, :username).merge({ first_name: user_first_name, last_name: user_last_name })
   end
 end
