@@ -23,7 +23,7 @@ class Api::V1::VideosController < Api::V1::ApiController
   end
 
   def get_video_list
-    videos = Video.with_list_order
+    videos = Video.with_list_order(current_user.id)
     .paginate(page: params[:page] || 1, per_page: params[:per_page] || 20)
 
     if videos.present?

@@ -24,6 +24,8 @@ Rails.application.routes.draw do
           get :get_video_list
         end
       end
+
+      resources :video_reports, only: [:create]
     end
   end
 end
