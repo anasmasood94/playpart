@@ -1,6 +1,11 @@
 class UniqueUserName < ActiveRecord::Migration[6.1]
-  def change
-    add_column :users, :username, :string, null: false, default: ""
+  def up
+    add_column :users, :username, :string
+    execute "UPDATE users SET username = CONCAT('user', floor(random()* (400-100 + 1) + 100)::varchar(255)) WHERE username IS NULL"
     add_index :users, :username, unique: true
+  end
+
+  def down
+    remove_column :users, :username
   end
 end
